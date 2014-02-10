@@ -16,6 +16,12 @@ Set proper **serialID** str to device name in order to do so.
 - Flag to disable FPS count
 
 
+Run as a Background process
+--------------
+- Under windows, export project from Processing.
+Go to the generated folder. Paste *adalight_background_win.bash* run from bash with Cygwin.
+
+
 Original README.txt
 --------------
 

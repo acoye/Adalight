@@ -64,6 +64,20 @@ static final boolean useFullScreenCaps = true;
 
 static final int timeout = 5000; // 5 seconds
 
+
+// Set the name of the serial interface here. (arduino or wateva)
+// to find out the name run the app once, then copy and paste.
+// on MS it will look like : "COM*"
+// on *nix it will look like =>
+static final String serialID = "/dev/cu.usbmodem<0x...>";
+
+// set to 'false' to disable GUI and use adalight as a command line tool 
+private static final boolean enableGUI = true;
+
+// set to 'false' to disable fps count. FPS Count only works with GUI enabled
+private static final boolean enableFPSLogs = true;
+
+
 // PER-DISPLAY INFORMATION ---------------------------------------------------
 
 // This array contains details for each display that the software will
@@ -137,18 +151,6 @@ int[][]          pixelOffset = new int[leds.length][256],
 PImage[]         preview     = new PImage[displays.length];
 Serial           port;
 DisposeHandler   dh; // For disabling LEDs on exit
-
-// Set the name of the serial interface here. (arduino or wateva)
-// to find out the name run the app once, then copy and paste.
-// on MS it will look like : "COM*"
-// on *nix it will look like =>
-static final String serialID = "/dev/cu.usbmodem<0x...>";
-
-// set to 'true' to disable GUI and use adalight as a command line tool 
-private static final boolean enableGUI = false;
-
-// set to 'false' to disable fps count. FPS Count only works with GUI enabled
-private static final boolean enableFPSLogs = false;
 
 // INITIALIZATION ------------------------------------------------------------
 

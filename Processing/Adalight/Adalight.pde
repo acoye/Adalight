@@ -138,6 +138,18 @@ PImage[]         preview     = new PImage[displays.length];
 Serial           port;
 DisposeHandler   dh; // For disabling LEDs on exit
 
+// Set the name of the serial interface here. (arduino or wateva)
+// to find out the name run the app once, then copy and paste.
+// on MS it will look like : "COM*"
+// on *nix it will look like =>
+static final String serialID = "/dev/cu.usbmodem<0x...>";
+
+// set to 'true' to disable GUI and use adalight as a command line tool 
+private static final boolean enableGUI = false;
+
+// set to 'false' to disable fps count. FPS Count only works with GUI enabled
+private static final boolean enableFPSLogs = false;
+
 // INITIALIZATION ------------------------------------------------------------
 
 void setup() {
@@ -150,10 +162,24 @@ void setup() {
 
   dh = new DisposeHandler(this); // Init DisposeHandler ASAP
 
-  // Open serial port.  As written here, this assumes the Arduino is the
-  // first/only serial device on the system.  If that's not the case,
-  // change "Serial.list()[0]" to the name of the port to be used:
-  port = new Serial(this, Serial.list()[0], 115200);
+  // Open serial port.  As written here, it uses the name of the device to find it.
+  // If you add or remove devices, it will keep up with the changes.
+  // If not found, it will still try to connect to device at index 0; 
+  
+  println("serial interfaces :");
+  int j = 0;
+  int deviceID = 0;
+  for (Object obj : Serial.list()) {
+    println (j + ": " + obj);
+    if (obj.equals(serialID)){
+      println ("\tdevice found @ id : " + j);
+      deviceID = j;
+    }
+    j++;
+  }
+  
+  port = new Serial(this, Serial.list()[deviceID], 115200);
+  
   // Alternately, in certain situations the following line can be used
   // to detect the Arduino automatically.  But this works ONLY with SOME
   // Arduino boards and versions of Processing!  This is so convoluted
@@ -257,6 +283,15 @@ void setup() {
     gamma[i][0] = (byte)(f * 255.0);
     gamma[i][1] = (byte)(f * 240.0);
     gamma[i][2] = (byte)(f * 220.0);
+  }
+  
+  // if you want a no-GUI java bin :
+  if (! enableGUI) {
+    noLoop();
+  
+    while (true) {
+      draw();
+    } 
   }
 }
 
@@ -402,7 +437,10 @@ void draw () {
     i += displays[d][1] + 1;
   }
 
-  println(frameRate); // How are we doing?
+
+  if (enableFPSLogs && enableGUI) {
+    println(frameRate); // How are we doing?
+  }
 
   // Copy LED color data to prior frame array for next pass
   arraycopy(ledColor, 0, prevColor, 0, ledColor.length);

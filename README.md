@@ -1,7 +1,7 @@
-Fork of Adalight project. Same LGPL license
+Fork of Adalight project.
 ==============
 
-Diff from main branch 
+Diff from main branch
 --------------
 
 - Adalight can run as a command line tool (no GUI)
@@ -16,7 +16,7 @@ Set proper **serialID** str to device name in order to do so.
 - Flag to disable FPS count
 
 
-Original README.txt follows
+Original README.txt
 --------------
 
 Adalight is free software: you can redistribute it and/or modify
